@@ -27,6 +27,14 @@ async function run() {
             res.json(result)
 
         })
+        app.get('/appointments', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email }
+            console.log(query)
+            const cursor = appointmentsCollection.find(query)
+            const appointments = await cursor.toArray()
+            res.json(appointments)
+        })
     } finally {
         //   await client.close();
     }
