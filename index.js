@@ -9,6 +9,7 @@ app.use(express.json())
 
 
 const { MongoClient } = require('mongodb');
+const ObjectId = require('mongodb').ObjectId;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.imkxn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 
 console.log(uri)
@@ -43,6 +44,13 @@ async function run() {
 
             }
             res.json({ admin: isAdmin })
+        })
+        app.get('/appointment/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) }
+            const result = await appointmentsCollection.findOne(query)
+            res.json(result)
+
         })
 
         app.post('/appointments', async (req, res) => {
